@@ -6,154 +6,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#10131a">
 <title>Engineering Projects Hub | Nikhil Sahu</title>
-
 <style>
 * { box-sizing: border-box; }
-
 body {
-  margin: 0;
-  min-height: 100vh;
-  color: #f3f5fa;
+  margin: 0; min-height: 100vh; color: #f3f5fa;
   font-family: Arial, Helvetica, sans-serif;
-  background: radial-gradient(
-    ellipse at 50% 0%, #1b2638 0%, #141923 45%, #101319 80%
-  );
+  background: radial-gradient(ellipse at 50% 0%, #1b2638 0%, #141923 45%, #101319 80%);
 }
-
 main {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 24px;
+  width: 100%; min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 48px 24px;
   text-align: center;
 }
-
-.gear {
-  color: #4b91ff;
-  font-size: 36px;
-  line-height: 1;
-  margin-bottom: 25px;
-}
-
-.eyebrow {
-  color: #a6b9d8;
-  font-size: 10px;
-  letter-spacing: 4px;
-  margin-bottom: 17px;
-}
-
-h1 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: 7px;
-}
-
+.gear { color: #4b91ff; font-size: 36px; line-height: 1; margin-bottom: 25px; }
+.eyebrow { color: #a6b9d8; font-size: 10px; letter-spacing: 4px; margin-bottom: 17px; }
+h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: 7px; }
 h1 span { color: #72aaff; }
-
-.underline {
-  width: 58px;
-  height: 2px;
-  background: #397eea;
-  margin: 23px 0;
-}
-
-.subtitle {
-  margin: 0 0 35px;
-  color: #8fa8cb;
-  font-size: 14px;
-}
-
+.underline { width: 58px; height: 2px; background: #397eea; margin: 23px 0; }
+.subtitle { margin: 0 0 35px; color: #8fa8cb; font-size: 14px; }
 .cards {
-  width: 100%;
-  max-width: 748px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  width: 100%; max-width: 748px; display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
 }
-
 .card {
-  min-height: 265px;
-  padding: 43px 28px 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #303d51;
-  border-radius: 12px;
+  min-height: 265px; padding: 43px 28px 25px; display: flex;
+  flex-direction: column; align-items: center; color: inherit;
+  text-decoration: none; border: 1px solid #303d51; border-radius: 12px;
   background: linear-gradient(145deg, #1b2433, #141922);
   transition: border-color .2s, transform .2s, background .2s;
 }
-
-a.card:hover,
-a.card:focus-visible {
-  border-color: #4b91ff;
-  transform: translateY(-3px);
+a.card:hover, a.card:focus-visible {
+  border-color: #4b91ff; transform: translateY(-3px);
   background: linear-gradient(145deg, #202d41, #171d29);
 }
-
-a.card:focus-visible {
-  outline: 2px solid #72aaff;
-  outline-offset: 4px;
-}
-
+a.card:focus-visible { outline: 2px solid #72aaff; outline-offset: 4px; }
 .card-icon {
-  height: 47px;
-  color: #4b91ff;
-  font-size: 34px;
-  line-height: 1.2;
-  margin-bottom: 22px;
+  height: 47px; color: #4b91ff; font-size: 34px;
+  line-height: 1.2; margin-bottom: 22px;
 }
-
-.personal .card-icon,
-.personal .arrow {
-  color: #a9b5c8;
-}
-
-.card h2 {
-  margin: 0 0 13px;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: .6px;
-}
-
-.card p {
-  max-width: 230px;
-  margin: 0;
-  color: #91a8c8;
-  font-size: 12px;
-  line-height: 1.7;
-}
-
-.arrow {
-  margin-top: auto;
-  padding-top: 22px;
-  color: #4b91ff;
-  font-size: 24px;
-  line-height: 1;
-}
-
-/* Future personal projects section */
-#personal-projects {
-  width: 100%;
-  max-width: 748px;
-  margin-top: 28px;
-  padding: 20px;
-  border: 1px solid #303d51;
-  border-radius: 12px;
-  color: #91a8c8;
-  font-size: 13px;
-}
-
-#personal-projects h2 {
-  color: #f3f5fa;
-  font-size: 15px;
-}
-
+.personal .card-icon, .personal .arrow { color: #a9b5c8; }
+.card h2 { margin: 0 0 13px; font-size: 14px; font-weight: 800; letter-spacing: .6px; }
+.card p { max-width: 230px; margin: 0; color: #91a8c8; font-size: 12px; line-height: 1.7; }
+.arrow { margin-top: auto; padding-top: 22px; color: #4b91ff; font-size: 24px; line-height: 1; }
 @media (max-width: 600px) {
   main { padding: 60px 22px; }
   h1 { font-size: 25px; letter-spacing: 4px; }
@@ -162,39 +56,29 @@ a.card:focus-visible {
 }
 </style>
 </head>
-
 <body>
 <main>
   <div class="gear" aria-hidden="true">⚙</div>
   <div class="eyebrow">ENGINEERING PROJECTS HUB</div>
-
   <h1>NIKHIL <span>SAHU</span></h1>
   <div class="underline"></div>
-
-  <p class="subtitle">Explore my school and personal projects.</p>
+  <p class="subtitle">Explore my engineering work, from classroom projects to independent hardware builds.</p>
 
   <section class="cards" aria-label="Project categories">
-
-    <!-- Opens your existing school portfolio -->
     <a class="card" href="./school-projects.html" target="_blank" rel="noopener noreferrer">
       <div class="card-icon" aria-hidden="true">⌂</div>
       <h2>NOTABLE SCHOOL PROJECTS</h2>
-      <p>DDE, robotics classes, and more</p>
+      <p>Engineering coursework, robotics projects, and standout work developed through school.</p>
       <div class="arrow" aria-hidden="true">→</div>
     </a>
 
-    <!-- Links to the personal projects placeholder below -->
-    <a class="card personal" href="#personal-projects">
+    <a class="card personal" href="./personal-projects.html" target="_blank" rel="noopener noreferrer">
       <div class="card-icon" aria-hidden="true">▦</div>
-      <h2>PERSONAL PROJECTS</h2>
-      <p>Hardware builds, experiments, and<br>
-         independent work</p>
+      <h2>PERSONAL HARDWARE PROJECTS</h2>
+      <p>Independently designed and built hardware projects, hands-on experiments, and mechatronics work.</p>
       <div class="arrow" aria-hidden="true">→</div>
     </a>
-
   </section>
-
-
 </main>
 </body>
 </html>
