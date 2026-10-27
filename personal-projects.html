@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Personal engineering projects: AquaBalance automatic plant watering and an automated desk drawer with fingerprint access.">
+<title>Personal Projects | Engineering Portfolio</title>
+<style>
+
+/* Personal Projects portfolio — same dark engineering theme */
+:root {
+  color-scheme: dark;
+  --bg: #080d18;
+  --surface: #0d1625;
+  --panel: #111d30;
+  --panel-2: #15243a;
+  --border: #263750;
+  --text: #edf4ff;
+  --muted: #a8b7cc;
+  --blue: #55a8ff;
+  --cyan: #63e1e9;
+  --radius: 16px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 "Segoe UI", Arial, sans-serif; }
+a { color: var(--blue); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.topbar { position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; min-height: 70px; padding: 12px 26px; background: rgba(8,13,24,.96); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--text); font-weight: 750; text-decoration: none; line-height: 1.2; }
+.brand small { display: block; margin-top: 4px; color: var(--muted); font-size: .66rem; letter-spacing: .15em; }
+.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #3776b4; border-radius: 12px; background: #132b46; color: var(--cyan); font-size: .86rem; }
+.menu-toggle { display: none; border: 1px solid var(--border); border-radius: 9px; padding: 8px 12px; background: var(--panel); color: var(--text); cursor: pointer; }
+.site-layout { display: grid; grid-template-columns: 238px minmax(0, 1fr); min-height: calc(100vh - 70px); }
+.sidebar { position: sticky; top: 70px; align-self: start; height: calc(100vh - 70px); overflow-y: auto; padding: 25px 14px; background: #0a1220; border-right: 1px solid var(--border); }
+.nav-label { margin: 8px 12px 10px; color: #7f93ad; font-size: .7rem; font-weight: 800; letter-spacing: .15em; }
+.nav-link { display: block; margin: 4px 0; padding: 10px 12px; border: 1px solid transparent; border-radius: 9px; color: #afbed2; font-size: .92rem; text-decoration: none; transition: background .18s, border-color .18s, color .18s; }
+.nav-link:hover, .nav-link.active { color: var(--text); background: #142640; border-color: #24486e; }
+.nav-link.active { box-shadow: inset 3px 0 var(--blue); }
+.nav-rule { height: 1px; margin: 22px 8px; background: var(--border); }
+.sidebar-note { margin: 28px 8px 0; padding: 13px; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: .78rem; }
+.status-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px #63e1e966; }
+main { width: 100%; min-width: 0; max-width: 1500px; padding: 34px clamp(18px, 4vw, 62px) 60px; }
+.section-anchor { scroll-margin-top: 90px; }
+.hero { position: relative; overflow: hidden; padding: clamp(26px, 5vw, 60px); border: 1px solid #2a405d; border-radius: 22px; background: radial-gradient(ellipse at 85% 12%, #1c4c793d, transparent 42%), linear-gradient(135deg, #111e32, #0c1422); }
+.hero::after { position: absolute; right: -65px; bottom: -120px; width: 290px; height: 290px; border: 1px solid #55a8ff28; border-radius: 50%; content: ""; box-shadow: 0 0 0 32px #55a8ff08, 0 0 0 64px #55a8ff06; pointer-events: none; }
+.eyebrow { margin: 0 0 10px; color: var(--cyan); font-size: .74rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+h1, h2, h3, h4 { line-height: 1.25; }
+h1 { position: relative; z-index: 1; margin: 10px 0 16px; font-size: clamp(2.4rem, 5vw, 4.4rem); letter-spacing: -.05em; }
+h1 span { color: var(--blue); }
+h2 { margin: 0 0 12px; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -.03em; }
+h3 { margin: 0 0 8px; font-size: 1.15rem; }
+h4 { margin: 0 0 7px; font-size: 1rem; }
+p { margin-top: 0; }
+.hero-copy { position: relative; z-index: 1; max-width: 760px; color: var(--muted); font-size: 1.08rem; }
+.hero-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 9px; margin-top: 25px; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 14px; border: 1px solid #31557c; border-radius: 9px; background: #152943; color: var(--text); font-size: .88rem; font-weight: 650; text-decoration: none; cursor: pointer; }
+.button:hover { background: #1c3858; }
+.button.primary { border-color: #3478b9; background: #1b5a98; }
+.button.primary:hover { background: #2673b7; }
+.button.secondary { background: transparent; }
+.hero-stats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 760px; margin-top: 36px; }
+.hero-stats div, .metric { padding: 14px 16px; border: 1px solid #2a3d57; border-radius: 12px; background: #0913219c; }
+.hero-stats strong, .metric strong { display: block; color: var(--cyan); font-size: 1.28rem; }
+.hero-stats span, .metric span { color: var(--muted); font-size: .8rem; }
+.section { margin-top: 58px; }
+.section-heading { margin-bottom: 22px; }
+.section-heading > p:last-child { max-width: 840px; color: var(--muted); }
+.project-grid, .content-grid, .document-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.project-card, .panel, .document-card { min-width: 0; padding: 21px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); }
+.project-card { display: flex; flex-direction: column; min-height: 220px; color: inherit; text-decoration: none; transition: transform .2s, border-color .2s; }
+.project-card:hover { transform: translateY(-3px); border-color: var(--blue); }
+.card-number, .doc-label, .timeline-tag { color: var(--cyan); font-size: .7rem; font-weight: 800; letter-spacing: .13em; }
+.project-card h3 { margin-top: 12px; font-size: 1.35rem; }
+.project-card p, .panel p, .document-card p { color: var(--muted); }
+.card-arrow { margin-top: auto; padding-top: 10px; color: var(--blue); font-weight: 650; font-size: .88rem; }
+.callout { padding: 19px 21px; border: 1px solid #24486e; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; background: #102039; }
+.callout p { margin: 5px 0 0; color: var(--muted); }
+.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.subheading { margin: 34px 0 15px; font-size: 1.3rem; }
+.detail-list { padding-left: 24px; color: #d6e1f1; }
+.detail-list li { margin: 8px 0; padding-left: 3px; }
+.timeline { margin: 20px 0 8px 8px; padding-left: 23px; border-left: 2px solid #2b5684; }
+.timeline-item { position: relative; margin: 0 0 27px; }
+.timeline-item::before { position: absolute; top: 5px; left: -30px; width: 10px; height: 10px; border: 2px solid var(--blue); border-radius: 50%; background: var(--bg); content: ""; }
+.timeline-item h4 { margin-top: 6px; }
+.timeline-item p { margin-bottom: 0; color: var(--muted); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); text-align: left; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: #15243a; color: var(--cyan); font-size: .83rem; }
+td { color: #d8e3f2; font-size: .9rem; }
+tr:last-child td { border-bottom: 0; }
+.small { font-size: .86rem; }
+.muted { color: var(--muted); }
+.document-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.document-card .button { margin-top: auto; }
+.document-card h4, .document-card h3 { margin-top: 6px; }
+.doc-label { display: inline-block; }
+.content-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stage { position: relative; padding-top: 49px; }
+.stage-no { position: absolute; top: 17px; left: 21px; color: var(--cyan); font-weight: 800; font-size: .78rem; letter-spacing: .1em; }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 70px; padding-top: 20px; border-top: 1px solid var(--border); color: #8092aa; font-size: .8rem; }
+@media (max-width: 1000px) {
+  .site-layout { grid-template-columns: 205px minmax(0, 1fr); }
+  main { padding-inline: 24px; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .topbar { min-height: 62px; padding: 10px 15px; }
+  .menu-toggle { display: inline-flex; align-items: center; gap: 7px; }
+  .site-layout { display: block; }
+  .site-layout > main, main#main { margin-left: 0; width: 100%; max-width: none; }
+  .sidebar { position: sticky; top: 62px; z-index: 40; display: none; width: 100%; height: auto; max-height: calc(100vh - 62px); padding: 12px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .sidebar.open { display: block; }
+  .nav-label, .nav-rule, .sidebar-note { display: none; }
+  .nav-link { margin: 3px 0; }
+  main { padding: 22px 15px 45px; }
+  .hero { padding: 27px 20px; }
+  .hero-stats { grid-template-columns: 1fr; margin-top: 25px; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer { display: block; }
+  .footer span { display: block; margin: 5px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+  
+/* Desktop: keep the sidebar fixed and explicitly offset ALL page content beside it. */
+@media (min-width: 721px) {
+  .site-layout { display: block; min-height: calc(100vh - 70px); }
+  .sidebar { position: fixed; top: 70px; bottom: 0; left: 0; width: 238px; height: auto; max-height: none; overflow-y: auto; z-index: 45; }
+  .site-layout > main, main#main { display: block; box-sizing: border-box; margin-left: 238px; width: calc(100% - 238px); max-width: none; min-width: 0; padding-left: clamp(18px, 4vw, 62px); padding-right: clamp(18px, 4vw, 62px); }
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  .sidebar { width: 205px; }
+  .site-layout > main, main#main { margin-left: 205px; width: calc(100% - 205px); padding-left: 24px; padding-right: 24px; }
+}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="Personal projects home"><span class="brand-mark">NS</span><span>Nikhil Sahu <small>PERSONAL HARDWARE PORTFOLIO</small></span></a>
+  <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="sidebar">☰ <span>Menu</span></button>
+</header>
+<div class="site-layout">
+  <aside class="sidebar" id="sidebar">
+    <p class="nav-label">PORTFOLIO</p>
+    <a class="nav-link active" href="#home">Overview</a>
+    <a class="nav-link" href="#aquabalance">AquaBalance</a>
+    <a class="nav-link" href="#desk-drawer">Automated Desk Drawer</a>
+    <div class="nav-rule"></div>
+    <p class="nav-label">PROJECT RESOURCES</p>
+    <a class="nav-link" href="#planning">Planning &amp; Components</a>
+    <div class="sidebar-note"><span class="status-dot"></span> Design · Build · Test · Improve</div>
+  </aside>
+  <main id="main">
+    <section class="hero section-anchor" id="home">
+      <p class="eyebrow">PERSONAL ENGINEERING · HARDWARE · AUTOMATION</p>
+      <h1>Ideas into<br><span>working systems.</span></h1>
+      <p class="hero-copy">A showcase of independent engineering builds, from an automatic plant-watering prototype to a fingerprint-controlled automated desk drawer. Each project documents the design choices, electronics, fabrication, testing, and lessons learned.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#aquabalance">Explore projects <span aria-hidden="true">↘</span></a>
+        <a class="button secondary" href="#planning">View components &amp; process</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>02</strong><span>Personal projects</span></div>
+        <div><strong>CAD + Code</strong><span>Design and implementation</span></div>
+        <div><strong>Mechatronics</strong><span>Sensing and automation</span></div>
+      </div>
+    </section>
+
+    <section class="section section-anchor" id="project-index">
+      <div class="section-heading"><p class="eyebrow">PROJECT INDEX</p><h2>Build log</h2><p>Select a project to explore its purpose, system design, build process, challenges, and takeaways.</p></div>
+      <div class="project-grid">
+        <a class="project-card" href="#aquabalance"><span class="card-number">01 / SMART PLANT CARE</span><h3>AquaBalance</h3><p>An automatic plant-watering prototype using a soil-moisture sensor, Arduino, submersible pump, and custom 3D-printed vase.</p></a>
+        <a class="project-card" href="#desk-drawer"><span class="card-number">02 / ROBOTICS + ACCESS CONTROL</span><h3>Automated Desk Drawer</h3><p>A mechatronics capstone combining fingerprint recognition, a motorized rack-and-pinion drawer, distance sensing, and a VEX ball launcher.</p></a>
+      </div>
+    </section>
+
+    <section class="section section-anchor" id="aquabalance">
+      <div class="section-heading"><p class="eyebrow">PROJECT 01 · SMART PLANT CARE</p><h2>AquaBalance</h2><p>An automatic plant-watering prototype designed to help prevent plants from being under-watered or over-watered.</p></div>
+<div class="content-grid">
+        <article class="content-card"><h3>What is AquaBalance?</h3><p>Remembering to water plants can be difficult: forgetting to water or adding too much can harm them. AquaBalance is an automatic plant-watering machine built around a custom 3D-printed vase designed to help contain water and support a plant.</p><p>The prototype also served as a way to explore electronics, sensor readings, pump control, and embedded coding in a practical home-gardening application.</p></article>
+        <article class="content-card"><h3>Why I chose this project</h3><p>The project offered a hands-on way to learn how a soil-moisture sensor works, how to control a submersible pump, and how to display sensor readings on a 7-segment LED. It also connected to an everyday interest in gardening and the possibility of scaling automatic watering to a larger setup.</p></article>
+      </div>
+      <div class="section-heading subheading"><p class="eyebrow">SYSTEM DESIGN</p><h2>How it works</h2></div>
+      <div class="steps-grid">
+        <article class="content-card"><span class="step-number">01</span><h3>Measure soil moisture</h3><p>An analog soil-moisture sensor reads the soil condition and provides a value to the Arduino, with raw readings typically in the 0–1023 range.</p></article>
+        <article class="content-card"><span class="step-number">02</span><h3>Process the reading</h3><p>The Arduino code reads the sensor and scales the reading to a simpler 0–100 display for the 7-segment LED.</p></article>
+        <article class="content-card"><span class="step-number">03</span><h3>Water when needed</h3><p>When the soil is considered dry, the Arduino activates a mini submersible pump. Water moves through tubing in intervals until the target moisture condition is reached.</p></article>
+        <article class="content-card"><span class="step-number">04</span><h3>Contain and deliver water</h3><p>A custom-designed 3D-printed vase and carefully routed tubing help manage the water delivery and reduce leakage or siphoning issues.</p></article>
+      </div>
+      <div class="section-heading subheading"><p class="eyebrow">COMPONENTS</p><h2>Electronics &amp; fabrication</h2></div>
+<div class="content-card wide-card"><h3>Main components</h3><ul><li>Arduino Uno</li><li>Analog soil-moisture sensor</li><li>Mini submersible water pump and plastic tubing</li><li>7-segment LED</li><li>Jumper wires, NPN transistor, resistor, and flyback diode</li><li>Water reservoir and custom 3D-printed vase</li></ul></div>
+      <div class="section-heading subheading"><p class="eyebrow">CAD &amp; MAKING</p><h2>Custom 3D-printed vase</h2><p>The vase was designed in Autodesk Inventor and printed for the prototype. The total filament used was approximately 297 grams. At a filament cost of $30 per kilogram, the estimated print-material cost was $8.91.</p></div>
+<div class="section-heading subheading"><p class="eyebrow">BUILD PROCESS</p><h2>Construction overview</h2></div>
+      <div class="timeline">
+        <article class="timeline-item"><span class="step-number">01</span><div><h3>Design the vase</h3><p>Create a custom vase in Autodesk Inventor and 3D-print it. If the print cannot be completed in time, use a suitable container as a backup.</p></div></article>
+        <article class="timeline-item"><span class="step-number">02</span><div><h3>Prepare pump wiring</h3><p>Attach secure leads to the pump terminals and insulate the connections. Use appropriate adult supervision and safe soldering practices.</p></div></article>
+        <article class="timeline-item"><span class="step-number">03</span><div><h3>Test each component</h3><p>Test the 7-segment display, soil-moisture sensor, and pump individually before combining them. Ensure the pump has water when operating.</p></div></article>
+        <article class="timeline-item"><span class="step-number">04</span><div><h3>Connect the water path</h3><p>Attach tubing to the pump and position the outlet above the soil. Keep the tubing end out of the soil to help prevent dirt entering the pump.</p></div></article>
+        <article class="timeline-item"><span class="step-number">05</span><div><h3>Wire and program the system</h3><p>Connect the moisture sensor to an analog input, the display to its required interface, and the pump through a transistor switching circuit with a flyback diode. Write and debug the control code.</p></div></article>
+        <article class="timeline-item"><span class="step-number">06</span><div><h3>Test for leaks and siphoning</h3><p>Check wiring, verify the code, and test the vase and tubing for leakage or unintended water flow.</p></div></article>
+      </div>
+      <div class="content-grid">
+        <article class="content-card"><h3>Problems &amp; solutions</h3><ul><li><strong>Incomplete 3D print:</strong> used a plastic container as a backup reservoir.</li><li><strong>Thin vase bottom:</strong> had the vase reprinted.</li><li><strong>Faulty LCD panels:</strong> switched to a 7-segment LED to display moisture on a 0–100 scale.</li><li><strong>Water leakage:</strong> added a rubber-like lining inside the vase.</li><li><strong>Pump would not start:</strong> checked component seating, wiring, and transistor pin configuration.</li></ul></article>
+        <article class="content-card"><h3>Reflection</h3><p>This project introduced me to several unfamiliar components and challenged me to troubleshoot both hardware and code. I learned how soil-moisture readings are gathered, how analog inputs are used, why a transistor is needed to switch the pump, and why a flyback diode matters in a motor circuit. Testing each component separately and checking the wiring carefully were important steps toward getting the system working.</p></article>
+      </div>
+    </section>
+
+    <section class="section section-anchor" id="desk-drawer">
+      <div class="section-heading"><p class="eyebrow">PROJECT 02 · ROBOTICS + MECHATRONICS</p><h2>Automated Desk Drawer</h2><p>A robotics/mechatronics capstone project combining fingerprint access, autonomous sensing, a motorized drawer, and a ball-launching mechanism.</p></div>
+<div class="content-grid">
+        <article class="content-card"><h3>Objective</h3><p>Create a robotics/mechatronics product that demonstrates skills developed over two years of classes. The design used buttons and sensors rather than wireless operation, required at least two sensors in a feedback loop, and included at least one student-designed 3D-printed part, along with planning and a final presentation.</p></article>
+        <article class="content-card"><h3>Project concept</h3><p>The drawer uses a fingerprint sensor to authorize access. A VEX rangefinder detects a nearby hand and commands the drawer to open through a horizontal rack-and-pinion system. A bumper switch closes the drawer. A ball launcher was included as the project's intruder-response demonstration.</p></article>
+      </div>
+      <div class="section-heading subheading"><p class="eyebrow">FINAL PRODUCT</p><h2>Three integrated systems</h2></div>
+      <div class="steps-grid">
+        <article class="content-card"><span class="step-number">01</span><h3>Drawer and frame</h3><p>VEX metal angles, C-channels, plates, screws, and nuts form the base and drawer. A horizontal rack-and-pinion mechanism driven by a VEX motor group moves the drawer in and out.</p></article>
+        <article class="content-card"><span class="step-number">02</span><h3>Fingerprint access</h3><p>A DY50 fingerprint sensor connects to an Arduino and uses the Adafruit fingerprint library to identify a stored fingerprint. The Arduino sends a signal to the VEX brain to select the appropriate response.</p></article>
+        <article class="content-card"><span class="step-number">03</span><h3>Ball launcher</h3><p>A VEX motor group drives two wheels that compress and launch foam balls. A custom 3D-printed holder was designed in Autodesk Inventor to hold the balls above the launcher.</p></article>
+      </div>
+      <div class="section-heading subheading"><p class="eyebrow">BUILD &amp; CONTROL</p><h2>Design and implementation</h2></div>
+      <div class="timeline">
+        <article class="timeline-item"><span class="step-number">01</span><div><h3>Build the base</h3><p>I initially considered a fully 3D-printed base, but the long print time and material durability made that approach impractical. VEX metal parts were used for the main frame instead.</p></div></article>
+        <article class="timeline-item"><span class="step-number">02</span><div><h3>Construct the drawer slide</h3><p>Build the drawer from VEX angles and plates, then attach the rack-and-pinion slide and motor group to move it forward and backward.</p></div></article>
+        <article class="timeline-item"><span class="step-number">03</span><div><h3>Connect fingerprint recognition</h3><p>Wire the DY50 fingerprint sensor to the Arduino and use the Adafruit library to enroll and recognize a valid fingerprint.</p></div></article>
+        <article class="timeline-item"><span class="step-number">04</span><div><h3>Link Arduino and VEX</h3><p>The Arduino sends a digital signal through a VEX 3-wire connection. The VEX program interprets the signal, then uses the rangefinder and bumper switch to control drawer motion.</p></div></article>
+        <article class="timeline-item"><span class="step-number">05</span><div><h3>Design and attach the ball holder</h3><p>Model a holder for two VEX foam balls in Autodesk Inventor, print it, and mount it above the launcher mechanism.</p></div></article>
+        <article class="timeline-item"><span class="step-number">06</span><div><h3>Program and test</h3><p>Run the Arduino C++ fingerprint code alongside the VEX Python control code. Test valid and invalid scans, range detection, drawer opening and closing, and the launcher response.</p></div></article>
+      </div>
+<div class="content-grid">
+        <article class="content-card"><h3>Challenges &amp; solutions</h3><ul><li><strong>Base print took too long:</strong> changed to VEX metal parts.</li><li><strong>Drawer sagged:</strong> moved support points toward the middle to better distribute the load.</li><li><strong>Fingerprint readings were unreliable:</strong> used the Adafruit library's enrollment and matching approach.</li><li><strong>Ball holder mounting was unstable:</strong> used tape as a quick fix, though a more secure mounting method would have been better.</li></ul></article>
+        <article class="content-card"><h3>Successes &amp; reflection</h3><p>I adapted the design when the original approach proved impractical, planned my work using a daily calendar, and completed the project within the class timeline. The most challenging part was connecting Arduino and VEX code so the fingerprint result could trigger the correct mechanical behavior. The build strengthened my skills in prototyping, mechatronics, debugging, and making design trade-offs under time constraints.</p></article>
+      </div>
+    </section>
+
+    <section class="section section-anchor" id="planning">
+      <div class="section-heading"><p class="eyebrow">PROJECT RESOURCES</p><h2>Planning &amp; components</h2><p>Planning notes and build resources are summarized below. No separate downloadable planning-document files were included with this portfolio, so this section does not link to files that may not exist.</p></div>
+      <div class="content-grid">
+        <article class="content-card"><h3>AquaBalance</h3><ul><li>Research soil-moisture sensing and liquid dispensing.</li><li>Test the sensor, pump, and 7-segment LED separately.</li><li>Design and print the vase in Autodesk Inventor.</li><li>Write the sensor, display, and pump control code.</li><li>Test for leaks, wiring faults, and siphoning.</li></ul></article>
+        <article class="content-card"><h3>Automated Desk Drawer</h3><ul><li>Brainstorm and compare possible project concepts.</li><li>Use a calendar to track progress and work blocks.</li><li>Build the frame, drawer slide, and launcher.</li><li>Integrate Arduino fingerprint recognition with VEX control.</li><li>Test sensor feedback, mechanical movement, and the final presentation.</li></ul></article>
+      </div>
+    </section>
+    <footer class="footer"><span>Personal Hardware · Engineering Portfolio</span><span>Built with HTML, CSS, and JavaScript</span></footer>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  if (toggle && sidebar) {
+    toggle.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+  const links = [...document.querySelectorAll('.nav-link[href^="#"]')];
+  function setActive(id) {
+    links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + id));
+  }
+  links.forEach(link => link.addEventListener('click', () => {
+    setActive(link.getAttribute('href').slice(1));
+    if (sidebar) sidebar.classList.remove('open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }));
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
+    }, {rootMargin: '-20% 0px -65% 0px'});
+    document.querySelectorAll('.section-anchor').forEach(section => observer.observe(section));
+  }
+});
+</script>
+</body>
+</html>

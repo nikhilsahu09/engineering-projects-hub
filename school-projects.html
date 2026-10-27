@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Engineering and school project portfolio documenting design, planning, coding, testing, and reflection.">
+  <title>School Projects | Engineering Portfolio</title>
+  <style>
+/* School Projects portfolio — dark engineering theme */
+:root {
+  color-scheme: dark;
+  --bg: #080d18;
+  --surface: #0d1625;
+  --panel: #111d30;
+  --panel-2: #15243a;
+  --border: #263750;
+  --text: #edf4ff;
+  --muted: #a8b7cc;
+  --blue: #55a8ff;
+  --cyan: #63e1e9;
+  --radius: 16px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 "Segoe UI", Arial, sans-serif; }
+a { color: var(--blue); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.topbar { position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; min-height: 70px; padding: 12px 26px; background: rgba(8,13,24,.96); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--text); font-weight: 750; text-decoration: none; line-height: 1.2; }
+.brand small { display: block; margin-top: 4px; color: var(--muted); font-size: .66rem; letter-spacing: .15em; }
+.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #3776b4; border-radius: 12px; background: #132b46; color: var(--cyan); font-size: .86rem; }
+.menu-toggle { display: none; border: 1px solid var(--border); border-radius: 9px; padding: 8px 12px; background: var(--panel); color: var(--text); cursor: pointer; }
+.site-layout { display: grid; grid-template-columns: 238px minmax(0, 1fr); min-height: calc(100vh - 70px); }
+.sidebar { position: sticky; top: 70px; align-self: start; height: calc(100vh - 70px); overflow-y: auto; padding: 25px 14px; background: #0a1220; border-right: 1px solid var(--border); }
+.nav-label { margin: 8px 12px 10px; color: #7f93ad; font-size: .7rem; font-weight: 800; letter-spacing: .15em; }
+.nav-link { display: block; margin: 4px 0; padding: 10px 12px; border: 1px solid transparent; border-radius: 9px; color: #afbed2; font-size: .92rem; text-decoration: none; transition: background .18s, border-color .18s, color .18s; }
+.nav-link:hover, .nav-link.active { color: var(--text); background: #142640; border-color: #24486e; }
+.nav-link.active { box-shadow: inset 3px 0 var(--blue); }
+.nav-rule { height: 1px; margin: 22px 8px; background: var(--border); }
+.sidebar-note { margin: 28px 8px 0; padding: 13px; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: .78rem; }
+.status-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px #63e1e966; }
+main { width: 100%; min-width: 0; max-width: 1500px; padding: 34px clamp(18px, 4vw, 62px) 60px; }
+.section-anchor { scroll-margin-top: 90px; }
+.hero { position: relative; overflow: hidden; padding: clamp(26px, 5vw, 60px); border: 1px solid #2a405d; border-radius: 22px; background: radial-gradient(ellipse at 85% 12%, #1c4c793d, transparent 42%), linear-gradient(135deg, #111e32, #0c1422); }
+.hero::after { position: absolute; right: -65px; bottom: -120px; width: 290px; height: 290px; border: 1px solid #55a8ff28; border-radius: 50%; content: ""; box-shadow: 0 0 0 32px #55a8ff08, 0 0 0 64px #55a8ff06; pointer-events: none; }
+.eyebrow { margin: 0 0 10px; color: var(--cyan); font-size: .74rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+h1, h2, h3, h4 { line-height: 1.25; }
+h1 { position: relative; z-index: 1; margin: 10px 0 16px; font-size: clamp(2.4rem, 5vw, 4.4rem); letter-spacing: -.05em; }
+h1 span { color: var(--blue); }
+h2 { margin: 0 0 12px; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -.03em; }
+h3 { margin: 0 0 8px; font-size: 1.15rem; }
+h4 { margin: 0 0 7px; font-size: 1rem; }
+p { margin-top: 0; }
+.hero-copy { position: relative; z-index: 1; max-width: 760px; color: var(--muted); font-size: 1.08rem; }
+.hero-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 9px; margin-top: 25px; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 14px; border: 1px solid #31557c; border-radius: 9px; background: #152943; color: var(--text); font-size: .88rem; font-weight: 650; text-decoration: none; cursor: pointer; }
+.button:hover { background: #1c3858; }
+.button.primary { border-color: #3478b9; background: #1b5a98; }
+.button.primary:hover { background: #2673b7; }
+.button.secondary { background: transparent; }
+.hero-stats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 760px; margin-top: 36px; }
+.hero-stats div, .metric { padding: 14px 16px; border: 1px solid #2a3d57; border-radius: 12px; background: #0913219c; }
+.hero-stats strong, .metric strong { display: block; color: var(--cyan); font-size: 1.28rem; }
+.hero-stats span, .metric span { color: var(--muted); font-size: .8rem; }
+.section { margin-top: 58px; }
+.section-heading { margin-bottom: 22px; }
+.section-heading > p:last-child { max-width: 840px; color: var(--muted); }
+.project-grid, .content-grid, .document-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.project-card, .panel, .document-card { min-width: 0; padding: 21px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); }
+.project-card { display: flex; flex-direction: column; min-height: 220px; color: inherit; text-decoration: none; transition: transform .2s, border-color .2s; }
+.project-card:hover { transform: translateY(-3px); border-color: var(--blue); }
+.card-number, .doc-label, .timeline-tag { color: var(--cyan); font-size: .7rem; font-weight: 800; letter-spacing: .13em; }
+.project-card h3 { margin-top: 12px; font-size: 1.35rem; }
+.project-card p, .panel p, .document-card p { color: var(--muted); }
+.card-arrow { margin-top: auto; padding-top: 10px; color: var(--blue); font-weight: 650; font-size: .88rem; }
+.callout { padding: 19px 21px; border: 1px solid #24486e; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; background: #102039; }
+.callout p { margin: 5px 0 0; color: var(--muted); }
+.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.subheading { margin: 34px 0 15px; font-size: 1.3rem; }
+.detail-list { padding-left: 24px; color: #d6e1f1; }
+.detail-list li { margin: 8px 0; padding-left: 3px; }
+.timeline { margin: 20px 0 8px 8px; padding-left: 23px; border-left: 2px solid #2b5684; }
+.timeline-item { position: relative; margin: 0 0 27px; }
+.timeline-item::before { position: absolute; top: 5px; left: -30px; width: 10px; height: 10px; border: 2px solid var(--blue); border-radius: 50%; background: var(--bg); content: ""; }
+.timeline-item h4 { margin-top: 6px; }
+.timeline-item p { margin-bottom: 0; color: var(--muted); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); text-align: left; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: #15243a; color: var(--cyan); font-size: .83rem; }
+td { color: #d8e3f2; font-size: .9rem; }
+tr:last-child td { border-bottom: 0; }
+.small { font-size: .86rem; }
+.muted { color: var(--muted); }
+.document-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.document-card .button { margin-top: auto; }
+.document-card h4, .document-card h3 { margin-top: 6px; }
+.doc-label { display: inline-block; }
+.content-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stage { position: relative; padding-top: 49px; }
+.stage-no { position: absolute; top: 17px; left: 21px; color: var(--cyan); font-weight: 800; font-size: .78rem; letter-spacing: .1em; }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 70px; padding-top: 20px; border-top: 1px solid var(--border); color: #8092aa; font-size: .8rem; }
+@media (max-width: 1000px) {
+  .site-layout { grid-template-columns: 205px minmax(0, 1fr); }
+  main { padding-inline: 24px; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .topbar { min-height: 62px; padding: 10px 15px; }
+  .menu-toggle { display: inline-flex; align-items: center; gap: 7px; }
+  .site-layout { display: block; }
+  .site-layout > main, main#main { margin-left: 0; width: 100%; max-width: none; }
+  .sidebar { position: sticky; top: 62px; z-index: 40; display: none; width: 100%; height: auto; max-height: calc(100vh - 62px); padding: 12px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .sidebar.open { display: block; }
+  .nav-label, .nav-rule, .sidebar-note { display: none; }
+  .nav-link { margin: 3px 0; }
+  main { padding: 22px 15px 45px; }
+  .hero { padding: 27px 20px; }
+  .hero-stats { grid-template-columns: 1fr; margin-top: 25px; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer { display: block; }
+  .footer span { display: block; margin: 5px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+  
+/* Desktop: keep the sidebar fixed and explicitly offset ALL page content beside it. */
+@media (min-width: 721px) {
+  .site-layout { display: block; min-height: calc(100vh - 70px); }
+  .sidebar { position: fixed; top: 70px; bottom: 0; left: 0; width: 238px; height: auto; max-height: none; overflow-y: auto; z-index: 45; }
+  .site-layout > main, main#main { display: block; box-sizing: border-box; margin-left: 238px; width: calc(100% - 238px); max-width: none; min-width: 0; padding-left: clamp(18px, 4vw, 62px); padding-right: clamp(18px, 4vw, 62px); }
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  .sidebar { width: 205px; }
+  .site-layout > main, main#main { margin-left: 205px; width: calc(100% - 205px); padding-left: 24px; padding-right: 24px; }
+}
+</style>
+  <script defer>
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById("sidebar");
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = Array.from(document.querySelectorAll(".nav-link[href^='#']"));
+  const sections = navLinks
+    .map(link => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  // Mobile menu: open and close without affecting desktop navigation.
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener("click", () => {
+      const isOpen = sidebar.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+  }
+
+  // Navigation uses normal in-page anchors. This script only highlights the
+  // section currently being viewed; it does not hide project content.
+  function setActiveLink(id) {
+    navLinks.forEach(link => {
+      const active = link.getAttribute("href") === `#${id}`;
+      link.classList.toggle("active", active);
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      const targetId = link.getAttribute("href").slice(1);
+      setActiveLink(targetId);
+      if (sidebar && sidebar.classList.contains("open")) {
+        sidebar.classList.remove("open");
+        if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+
+  // Highlight sidebar item while scrolling, with a safe fallback if
+  // IntersectionObserver is unavailable.
+  if ("IntersectionObserver" in window && sections.length) {
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveLink(visible.target.id);
+    }, { rootMargin: "-18% 0px -68% 0px", threshold: [0, 0.1, 0.25, 0.5] });
+
+    sections.forEach(section => observer.observe(section));
+  }
+
+  // Secure new-tab links.
+  document.querySelectorAll('a[target="_blank"]').forEach(link => {
+    link.rel = "noopener noreferrer";
+  });
+
+  // Keep the active section correct when opening a deep link.
+  const initialId = window.location.hash.slice(1);
+  if (initialId) setActiveLink(initialId);
+});
+
+  </script>
+
+<style>
+.planning-embed{margin:1.4rem 0;padding:1rem;border:1px solid #334155;border-radius:14px;background:rgba(15,23,42,.5)}
+.planning-embed h3{margin:0 0 .85rem;font-size:1.05rem}
+.planning-embed iframe{display:block;width:100%;height:520px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}
+@media(max-width:700px){.planning-embed{padding:.65rem}.planning-embed iframe{height:420px}}
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="School projects home"><span class="brand-mark">NS</span><span>Nikhil Sahu <small>SCHOOL PROJECTS PORTFOLIO</small></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="sidebar">☰ <span>Menu</span></button>
+  </header>
+
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <p class="nav-label">PORTFOLIO</p>
+      <a class="nav-link active" href="#home">Overview</a>
+      <a class="nav-link" href="#cargo">Cargo Transport</a>
+      <a class="nav-link" href="#automation">Automation Project</a>
+      <div class="nav-rule"></div>
+      <p class="nav-label">PROJECT RESOURCES</p>
+      <a class="nav-link" href="#planning">Planning Documents</a>
+      <div class="sidebar-note"><span class="status-dot"></span> Design · Build · Test · Improve</div>
+    </aside>
+
+    <main id="main">
+      <section class="hero section-anchor" id="home">
+        <p class="eyebrow">ENGINEERING · DESIGN · ITERATION</p>
+        <h1>From first sketch<br><span>to working system.</span></h1>
+        <p class="hero-copy">A record of school engineering projects, the decisions behind each design, the problems encountered during testing, and what each build taught me.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#cargo">Explore projects <span aria-hidden="true">↘</span></a>
+          <a class="button secondary" href="#planning">View planning documents</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>02</strong><span>Project areas</span></div>
+          <div><strong>CAD + Code</strong><span>Design and implementation</span></div>
+          <div><strong>Iterative</strong><span>Test, learn, refine</span></div>
+        </div>
+      </section>
+
+      <section class="section section-anchor" id="project-index">
+        <div class="section-heading"><p class="eyebrow">PROJECT INDEX</p><h2>Build log</h2><p>Choose a project to explore its goals, design process, implementation, testing, and lessons learned.</p></div>
+        <div class="project-grid">
+          <a class="project-card" href="#cargo"><span class="card-number">01 / ROBOTICS</span><h3>Cargo Transport</h3><p>An autonomous robot concept for picking up colored cargo blocks and delivering them to scoring docks.</p><span class="card-arrow">Open project ↗</span></a>
+          <a class="project-card" href="#automation"><span class="card-number">02 / AUTOMATION</span><h3>Pizza Automation</h3><p>A multi-stage automated pizza process using sensors, a conveyor, custom 3D prints, a topping mechanism, and a slicer.</p><span class="card-arrow">Open project ↗</span></a>
+        </div>
+      </section>
+
+
+      <section class="section section-anchor" id="cargo">
+        <div class="section-heading"><p class="eyebrow">PROJECT 01 · AUTONOMOUS ROBOTICS</p><h2>Cargo Transport</h2><p>An autonomous robot challenge focused on moving colored cargo cubes to receiving docks, balancing mechanical reliability, sensing, scoring strategy, and limited build time.</p></div>
+        <div class="callout"><strong>Challenge brief</strong><p>The robot had to transport at least three custom 3D-printed colored cubes to docks without human interaction after the autonomous start. A round lasted three minutes, and the average score across three rounds determined performance.</p></div>
+        <div class="metric-grid">
+          <div class="metric"><strong>12</strong><span>Build days</span></div>
+          <div class="metric"><strong>3 min</strong><span>Per round</span></div>
+          <div class="metric"><strong>3</strong><span>Rounds averaged</span></div>
+          <div class="metric"><strong>6</strong><span>Blocks in programmed cycle</span></div>
+        </div>
+        <h3 class="subheading">Rules and constraints</h3>
+        <ul class="detail-list">
+          <li>Blocks could not touch the table while being scored.</li>
+          <li>The pickup-to-goal distance was 24 inches, adjustable by about ±3 inches.</li>
+          <li>Pickup heights were 0.5–2 inches and goal heights were 1–4 inches.</li>
+          <li>Only VEX parts could be used, except custom parts designed and 3D-printed by the team.</li>
+          <li>The robot had to operate autonomously. Moving the shipping boat or receiving dock forfeited the round.</li>
+        </ul>
+        <h3 class="subheading">Scoring strategy</h3>
+        <div class="table-wrap"><table><thead><tr><th>Dock location</th><th>Multiplier</th><th>Yellow block</th><th>Red block</th><th>Blue block</th></tr></thead><tbody><tr><td>Outside platform</td><td>1×</td><td>2 pts</td><td>4 pts</td><td>6 pts</td></tr><tr><td>Top platform</td><td>1.5×</td><td>2 pts</td><td>4 pts</td><td>6 pts</td></tr><tr><td>Cave</td><td>2×</td><td>2 pts</td><td>4 pts</td><td>6 pts</td></tr></tbody></table></div>
+        <p class="small muted">The multiplier is applied according to the block's scoring destination. Sensor utilization, design, functionality, number of blocks picked up, aesthetics, wire management, construction, and planning/concept production were also part of evaluation.</p>
+        <h3 class="subheading">Design evolution</h3>
+        <div class="timeline">
+          <div class="timeline-item"><span class="timeline-tag">Initial concept</span><h4>Base and rotating arm</h4><p>The first concept used a rectangular, SquareBot-like base with wheels and motors. A metal plate and turntable bearing supported an arm driven through gearing and a Motor 393.</p></div>
+          <div class="timeline-item"><span class="timeline-tag">Redesign</span><h4>Stability and height</h4><p>The wheel-based approach was discarded. Angles were used to improve height and stability, and two smart motors were grouped to improve control precision.</p></div>
+          <div class="timeline-item"><span class="timeline-tag">Sensing</span><h4>Claw and optical sensor</h4><p>A claw picked up the cubes, while an optical sensor identified their colors. Screws and collars were tightened during refinement.</p></div>
+        </div>
+        <h3 class="subheading">Autonomous code logic</h3>
+        <ol class="detail-list">
+          <li>The robot begins at its starting position and rotates the arm about 180 degrees to the opposite side.</li>
+          <li>The optical sensor reads the cube color.</li>
+          <li>Blue sends the block to the cave, red to the top platform, and other/yellow blocks to the outside platform.</li>
+          <li>The cycle repeats for the planned set of six blocks. Returning to the base between pickups was necessary because the block positions were planned.</li>
+        </ol>
+        <h3 class="subheading">Testing and troubleshooting</h3>
+        <div class="content-grid">
+          <article class="panel"><h4>Arm power and weight</h4><p>The turntable bearing lacked sufficient power for the heavy arm, and the arm could drop or crash downward. Adjustments helped, but the issue was not fully resolved.</p></article>
+          <article class="panel"><h4>First pickup</h4><p>The first attempt failed. Repeated troubleshooting and iterative adjustments eventually allowed the robot to pick up its first block.</p></article>
+          <article class="panel"><h4>Position consistency</h4><p>Variation in robot and block positioning made repeatability difficult. The design relied on planned positions, limiting flexibility.</p></article>
+          <article class="panel"><h4>Time constraints</h4><p>Two build days were disrupted, leaving little time to finish. The experience highlighted the importance of realistic scheduling and prioritizing critical functions.</p></article>
+        </div>
+        <h3 class="subheading">Cost management</h3>
+        <p>The project tracked VEX parts and estimated costs for working hours/pay, electronics, metal, and plastic parts. Use the original class price list for the exact itemized cost record.</p>
+        <h3 class="subheading">Reflection</h3>
+        <p>This project reinforced that a robot can have a promising concept but still struggle when the mechanism is too heavy or not powerful enough. Iterative testing, time management, listening to teammates, and being willing to reconsider ideas were important. I focused especially on coding and documenting the process, and learned that failure is part of improving a design.</p></section>
+
+      <section class="section section-anchor" id="automation">
+        <div class="section-heading"><p class="eyebrow">PROJECT 02 · AUTOMATION SYSTEMS</p><h2>Pizza Automation</h2><p>A recurring, rule-based process designed to make a pizza through several automated stages without human intervention during the sequence.</p></div>
+        <div class="callout"><strong>Project requirements</strong><p>The system needed three changes and four different pizza models (one per stage), at least one tactile sensor and one optical sensor, 3D-printed base models, and VEX metal parts and VEX V5 coding. Human interaction and unsafe wiring could incur deductions; cost was also a consideration.</p></div>
+        <h3 class="subheading">Concept selection</h3>
+        <p>The team brainstormed and sketched concepts including a pizza, a snowman, and a table. A decision matrix was used to compare options, and the pizza process was selected.</p>
+        <h3 class="subheading">Four product stages</h3>
+        <div class="content-grid four">
+          <article class="panel stage"><span class="stage-no">01</span><h4>Crusted pizza</h4><p>The base model enters the automated line.</p></article>
+          <article class="panel stage"><span class="stage-no">02</span><h4>Sauced pizza</h4><p>A claw mechanism squeezes a sauce bottle.</p></article>
+          <article class="panel stage"><span class="stage-no">03</span><h4>Cheese + pepperoni</h4><p>A custom cup tips toppings onto the pizza.</p></article>
+          <article class="panel stage"><span class="stage-no">04</span><h4>Sliced pizza</h4><p>A four-blade slicer descends and rises using a vertical rack-and-pinion mechanism.</p></article>
+        </div>
+        <h3 class="subheading">How the system works</h3>
+        <ol class="detail-list">
+          <li>The process begins when the start button is pressed. The conveyor moves until a distance sensor detects the pizza, then stops.</li>
+          <li>A claw mechanism squeezes the sauce bottle over the pizza.</li>
+          <li>The next button advances the conveyor until another sensor detects the pizza, then the cheese-and-pepperoni cup tips.</li>
+          <li>After the next process is triggered by a leaf switch, the slicer moves down and back up using the rack and pinion.</li>
+          <li>The final start button moves the pizza off the conveyor and into a paper pizza box; the program then terminates.</li>
+        </ol>
+        <h3 class="subheading">My contributions</h3>
+        <div class="content-grid">
+          <article class="panel"><h4>3D modeling and printing</h4><p>I modeled the pizza products for the different stages and printed them. The four models made the product's progress visible through the process.</p></article>
+          <article class="panel"><h4>Slicer mechanism</h4><p>I worked on the slicer and researched a vertical rack-and-pinion mechanism. I learned from teammates and online demonstrations as we developed the mechanism.</p></article>
+          <article class="panel"><h4>Packaging</h4><p>I made a custom paper pizza box for the finished product to land in at the end of the conveyor.</p></article>
+        </div>
+        <h3 class="subheading">Troubleshooting and iteration</h3>
+        <div class="table-wrap"><table><thead><tr><th>Issue</th><th>Adjustment</th><th>Purpose</th></tr></thead><tbody>
+          <tr><td>Distance sensors struggled to detect pizza</td><td>Moved sensors closer and tightened the conveyor belt</td><td>Improve detection and reduce belt sag</td></tr>
+          <tr><td>Limit switch did not click fully</td><td>Added guard rails and slowed the conveyor</td><td>Improve contact and positioning precision</td></tr>
+          <tr><td>Rack-and-pinion skipped teeth</td><td>Added upper and lower contact points and tightened screws</td><td>Stabilize the slicer motion</td></tr>
+          <tr><td>Pizza missed the box</td><td>Raised the box and slowed the conveyor</td><td>Improve alignment at the final stage</td></tr>
+        </tbody></table></div>
+        <h3 class="subheading">Cost and materials</h3>
+        <div class="metric-grid">
+          <div class="metric"><strong>$1,209.00</strong><span>Total materials cost</span></div>
+          <div class="metric"><strong>$869.50</strong><span>Electrical</span></div>
+          <div class="metric"><strong>$243.30</strong><span>Metal</span></div>
+          <div class="metric"><strong>$96.20</strong><span>Plastic</span></div>
+        </div>
+        <p>Distinctive parts included the rack and pinion, conveyor belt, bumper switch, and leaf switch. The team aimed to balance cost, performance, clean construction, and dependable operation. The topping dropper worked, and the final design was relatively cost-efficient compared with other groups.</p>
+        <h3 class="subheading">Reflection</h3>
+        <p>The project showed how important it is to integrate mechanical systems and code carefully. Sensor placement, belt tension, switch contact, gear alignment, and conveyor speed all affected whether each stage worked. The team split tasks, used a Gantt chart for long-term planning, and had to spend time integrating and troubleshooting the code and mechanisms.</p>
+      </section>
+
+
+      <section class="section section-anchor" id="planning">
+        <div class="section-heading"><p class="eyebrow">PROCESS DOCUMENTATION</p><h2>Planning documents</h2><p>The planning documents are displayed below so visitors can review them without leaving this page.</p></div>
+        <div class="planning-embed">
+          <h3>Cargo Transport — Decision Matrix</h3>
+          <iframe title="Cargo Transport Decision Matrix" src="https://docs.google.com/spreadsheets/d/1YcCD5tgT-yeN_ErRlcbzneU2OtAWXkb6zbL3gbPm7sM/htmlembed?authuser=1" loading="lazy"></iframe>
+        </div>
+        <div class="planning-embed">
+          <h3>Cargo Transport — Gantt Chart</h3>
+          <iframe title="Cargo Transport Gantt Chart" src="https://docs.google.com/spreadsheets/d/1c6FCy5ZvXPqNImQNiZ-AOY0ecM3vOy9F2wATfOLSqTg/htmlembed?authuser=1" loading="lazy"></iframe>
+        </div>
+        <div class="planning-embed">
+          <h3>Automation — Decision Matrix</h3>
+          <iframe title="Automation Decision Matrix" src="https://docs.google.com/spreadsheets/d/15e3Io4XSW1WMFwYbdoRztZh7roPYUTjWZNuPYzIwEw0/htmlembed?authuser=1" loading="lazy"></iframe>
+        </div>
+        <div class="planning-embed">
+          <h3>Automation — Gantt Chart</h3>
+          <iframe title="Automation Gantt Chart" src="https://docs.google.com/spreadsheets/d/1c6FCy5ZvXPqNImQNiZ-AOY0ecM3vOy9F2wATfOLSqTg/htmlembed?authuser=1&gid=1115838130" loading="lazy"></iframe>
+        </div>
+        <div class="planning-embed">
+          <h3>Automation — Price List</h3>
+          <iframe title="Automation Price List" src="https://docs.google.com/spreadsheets/d/1_03-iOv8JPjVlxeOocxK2Nz-0rBUxlNaI0Iia1wrD0g/htmlembed?authuser=1" loading="lazy"></iframe>
+        </div>
+      </section>
+<footer class="footer"><span>School Projects · Engineering Portfolio</span><span>Built with HTML, CSS, and JavaScript</span></footer>
+    </main>
+  </div>
+</body>
+</html>
